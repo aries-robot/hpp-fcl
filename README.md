@@ -212,3 +212,15 @@ if __name__ == "__main__":
 ## Acknowledgments
 
 The development of **HPP-FCL** is actively supported by the [Gepetto team](http://projects.laas.fr/gepetto/) [@LAAS-CNRS](http://www.laas.fr), the [Willow team](https://www.di.ens.fr/willow/) [@INRIA](http://www.inria.fr) and, to some extend, [Eureka Robotics](https://eurekarobotics.com/).
+
+
+## Python Install
+```
+git clone https://github.com/aries-robot/hpp-fcl.git
+cd hpp-fcl
+git checkout devel
+git submodule update --init --recursive
+# (Copy utils/hpp_fcl_utils/pyproject.toml to the hpp-fcl folder.)
+# (To reinstall: "pip uninstall hpp-fcl" and "rm -rf build-editable" and "pip cache purge".)
+pip install -v -e .
+```
