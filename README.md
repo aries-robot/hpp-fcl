@@ -220,7 +220,6 @@ git clone https://github.com/aries-robot/hpp-fcl.git
 cd hpp-fcl
 git checkout devel
 git submodule update --init --recursive
-# (Copy utils/hpp_fcl_utils/pyproject.toml to the hpp-fcl folder.)
 # (To reinstall: "pip uninstall hpp-fcl" and "rm -rf build-editable" and "pip cache purge".)
 pip install -v -e .
 ```
