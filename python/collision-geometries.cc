@@ -696,6 +696,7 @@ void exposeCollisionObject() {
 
   if (!eigenpy::register_symbolic_link_to_registered_type<CollisionObject>()) {
     class_<CollisionObject, CollisionObjectPtr_t>("CollisionObject", no_init)
+        .def(dv::init<CollisionObject>())
         .def(dv::init<CollisionObject, const CollisionGeometryPtr_t&,
                       bp::optional<bool>>())
         .def(dv::init<CollisionObject, const CollisionGeometryPtr_t&,
@@ -733,6 +734,9 @@ void exposeCollisionObject() {
             "collisionGeometry",
             static_cast<const CollisionGeometryPtr_t& (CollisionObject::*)()>(
                 &CollisionObject::collisionGeometry),
-            bp::return_value_policy<bp::copy_const_reference>()));
+            bp::return_value_policy<bp::copy_const_reference>()))
+
+        .def_pickle(PickleObject<CollisionObject>())
+        .def(SerializableVisitor<CollisionObject>());
   }
 }

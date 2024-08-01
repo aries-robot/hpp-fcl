@@ -9,6 +9,10 @@
 
 #include "hpp/fcl/serialization/fwd.h"
 #include "hpp/fcl/serialization/AABB.h"
+#include "hpp/fcl/serialization/transform.h"
+
+#include "hpp/fcl/BV/AABB.h"
+#include "hpp/fcl/math/transform.h"
 
 namespace boost {
 namespace serialization {
@@ -37,6 +41,42 @@ void load(Archive& ar, hpp::fcl::CollisionGeometry& collision_geometry,
 }
 
 HPP_FCL_SERIALIZATION_SPLIT(hpp::fcl::CollisionGeometry)
+
+
+template <class Archive>
+void save(Archive& ar, const hpp::fcl::CollisionObject& collision_object,
+          const unsigned int /*version*/) {
+  ar& make_nvp("cgeom", collision_object.collisionGeometry());
+  ar& make_nvp("t", collision_object.getTransform());
+  ar& make_nvp("aabb", collision_object.getAABB());
+}
+
+template <class Archive>
+void load(Archive& ar, hpp::fcl::CollisionObject& collision_object,
+          const unsigned int /*version*/) {
+
+  std::shared_ptr<hpp::fcl::CollisionGeometry> cgeom;
+  hpp::fcl::Transform3f t;
+  hpp::fcl::AABB aabb;
+  ar >> make_nvp("cgeom", cgeom);
+  ar >> make_nvp("t", t);
+  ar >> make_nvp("aabb", aabb);
+
+  collision_object.setCollisionGeometry(cgeom, false);
+  collision_object.setTransform(t);
+  collision_object.setAABB(aabb);
+  collision_object.setUserData(NULL);
+}
+
+HPP_FCL_SERIALIZATION_SPLIT(hpp::fcl::CollisionObject)
+
+// template <class Archive>
+// void serialize(Archive& ar, hpp::fcl::CollisionObject& collision_object,
+//                const unsigned int /*version*/) {
+//   ar& make_nvp("cgeom", collision_object.collisionGeometry());
+//   ar& make_nvp("t", collision_object.getTransform());
+//   ar& make_nvp("aabb", collision_object.getAABB());
+// }
 
 }  // namespace serialization
 }  // namespace boost
@@ -91,5 +131,6 @@ struct register_type<CollisionGeometry> {
 }  // namespace serialization
 }  // namespace fcl
 }  // namespace hpp
+
 
 #endif  // ifndef HPP_FCL_SERIALIZATION_COLLISION_OBJECT_H

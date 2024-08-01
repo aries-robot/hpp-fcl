@@ -214,6 +214,8 @@ class HPP_FCL_DLLAPI CollisionGeometry {
 /// geometry and the transform information
 class HPP_FCL_DLLAPI CollisionObject {
  public:
+  CollisionObject() {};
+
   CollisionObject(const shared_ptr<CollisionGeometry>& cgeom_,
                   bool compute_local_aabb = true)
       : cgeom(cgeom_), user_data(nullptr) {
@@ -254,6 +256,9 @@ class HPP_FCL_DLLAPI CollisionObject {
 
   /// @brief get the AABB in world space
   AABB& getAABB() { return aabb; }
+
+  /// @brief set the AABB in world space
+  void setAABB(const AABB& aabb_) { aabb = aabb_; }
 
   /// @brief compute the AABB in world space
   void computeAABB() {
